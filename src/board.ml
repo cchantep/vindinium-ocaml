@@ -53,30 +53,44 @@ module Board = struct
            | Some(c) -> List.nth c row
            | _ -> None
 
+    (** Checks whether tile specified by column and row is on given board. *)
+    let is_on (b:board) ~(col:int) ~(row:int) : bool = 
+      if (row >= 0 && row < b.size && col >= 0 && col < b.size) 
+      then true else false
+
     (** 
      * Returns new some new board with tile set if coordinates are valid,
      * or none if not (board considered unchanged).
      *)
     let set (b:board) ~(col:int) ~(row:int) (t:tile) : board option = 
-      if (row < 0 || row >= b.size || col < 0 || col >= b.size) then None
-      else let (_, tiles) = 
-             List.fold_left 
-               b.tiles ~init:(0, [])
-               ~f:(fun cst r -> 
-                   let (i, cs) = cst in
-                   let rcopy = 
-                     if (phys_equal i col) then
-                       let (_, rup) = 
-                         List.fold_left 
-                           r ~init:(0, [])
-                           ~f:(fun rst tile ->
-                               let (j, ts) = rst in
+      if (is_on b ~col:col ~row:row) then
+        let (_, tiles) = 
+          List.fold_left 
+            b.tiles ~init:(0, [])
+            ~f:(fun cst r -> 
+                let (i, cs) = cst in
+                let rcopy = 
+                  if (phys_equal i col) then
+                    let (_, rup) = 
+                      List.fold_left 
+                        r ~init:(0, [])
+                        ~f:(fun rst tile ->
+                            let (j, ts) = rst in
                                let tcopy = 
                                  if (phys_equal j row) then t else tile in
                                (j+1, tcopy :: ts)) in List.rev rup 
-                     else r
-                   in (i+1, rcopy :: cs)) in
-           let copy = { size = b.size; tiles = List.rev tiles } 
-           in Some(copy)
+                  else r
+                in (i+1, rcopy :: cs)) in
+        let copy = { size = b.size; tiles = List.rev tiles } 
+        in Some(copy)
+      else None
 
   end
+
+(** Convenient infix operator to get specified tile on given board. *)
+let (@) (b:board) (coords: int * int) : tile option = 
+  let (c, r) = coords in Board.get b ~col:c ~row:r
+
+(** Convenient infox operator to check whether coordinates are on board. *)
+let (^) (coords: int * int) (b:board) : bool = 
+  let (c, r) = coords in Board.is_on b ~col:c ~row:r

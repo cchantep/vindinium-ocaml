@@ -92,16 +92,21 @@ module Hero_test = struct
          assert_equal ~msg:"Ninth hero ID from char 9" id NinthHero
       | _ -> assert_failure "No hero ID made from char 9"
 
+    let make_first_hero ctx = 
+      let _ = Hero.make ~id:FirstHero ~name:"First one"
+                        ~pos:(0, 0) ~spawn:(1, 0) in ()
+                                        
+
     let suite = [
-        "First hero ID from int 1"   >:: first_from_int;
-        "Second hero ID from int 2"  >:: second_from_int;
-        "Third hero ID from int 3"   >:: third_from_int;
-        "Fourth hero ID from int 4"  >:: fourth_from_int;
-        "Fifth hero ID from int 5"   >:: fifth_from_int;
-        "Sixth hero ID from int 6"   >:: sixth_from_int;
-        "Seventh hero ID from int 7" >:: seventh_from_int;
-        "Eighth hero ID from int 8"  >:: eighth_from_int;
-        "Ninth hero ID from int 9"   >:: ninth_from_int;
+        "First hero ID from int 1"    >:: first_from_int;
+        "Second hero ID from int 2"   >:: second_from_int;
+        "Third hero ID from int 3"    >:: third_from_int;
+        "Fourth hero ID from int 4"   >:: fourth_from_int;
+        "Fifth hero ID from int 5"    >:: fifth_from_int;
+        "Sixth hero ID from int 6"    >:: sixth_from_int;
+        "Seventh hero ID from int 7"  >:: seventh_from_int;
+        "Eighth hero ID from int 8"   >:: eighth_from_int;
+        "Ninth hero ID from int 9"    >:: ninth_from_int;
         "First hero ID from char 1"   >:: first_from_char;
         "Second hero ID from char 2"  >:: second_from_char;
         "Third hero ID from char 3"   >:: third_from_char;
@@ -110,6 +115,7 @@ module Hero_test = struct
         "Sixth hero ID from char 6"   >:: sixth_from_char;
         "Seventh hero ID from char 7" >:: seventh_from_char;
         "Eighth hero ID from char 8"  >:: eighth_from_char;
-        "Ninth hero ID from char 9"   >:: ninth_from_char
+        "Ninth hero ID from char 9"   >:: ninth_from_char;
+        "Make first hero"                  >:: make_first_hero
       ]
   end

@@ -5,7 +5,7 @@ type hero_id   =
   FifthHero | SixthHero   | SeventhHero | EighthHero | 
   NinthHero
 
-type hero_pos  = HeroPositionOnBoard of int * int
+type hero_pos  = int * int
 type hero_life = int
 type hero_gold = int
 type hero_elo  = int
@@ -48,17 +48,12 @@ module Hero = struct
              ?(life = 1) ?(gold = 0) ?(elo = 0) ?(crashed = false) () : hero = 
       let (px, py) = pos in 
       let (sx, sy) = spawn in 
-      { id; name; 
-        position = HeroPositionOnBoard(px,py); 
-        spawn_position = HeroPositionOnBoard(sx,sy); life; gold; elo; crashed }
+      { id; name; position = (px,py); spawn_position = (sx,sy); 
+        life; gold; elo; crashed }
 
     (* Returns string representation. *)
     let to_string (h : hero) : string = match h with 
-      | { id; name = n; 
-          position = HeroPositionOnBoard(px, py); 
-          spawn_position = HeroPositionOnBoard(sx, sy); 
-          life = l; 
-          gold = g; elo = e; crashed = c } -> 
-         sprintf "Hero(id = %i, name = %s, position = %i@%i, spawn = %i@%i %i %i %i %B)" 
-                 (HeroId.to_int id) n px py sx sy l g e c
+      | { id; name = n; position = (px, py); spawn_position = (sx, sy); 
+          life = l; gold = g; elo = e; crashed = c } -> 
+         sprintf "Hero(id = %i, name = %s, position = %i@%i, spawn = %i@%i %i %i %i %B)" (HeroId.to_int id) n px py sx sy l g e c
   end

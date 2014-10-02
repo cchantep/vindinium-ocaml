@@ -13,6 +13,6 @@ module Direction = struct
 
 (** Bot contract *)
 module type Bot = sig
-    (** Returns direction of next move. *)
-    val next_move : state -> direction
+    (** Returns either a valid direction for next move, or error. *)
+    val next_move : state -> (direction, string) Result.t
   end

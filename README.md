@@ -4,6 +4,8 @@ OCaml starter pack for [Vinidium](http://vindinium.org/) challenge (inspired fro
 
 ## Build
 
+[![Build Status](https://secure.travis-ci.org/cchantep/vindinium-ocaml.png?branch=master)](http://travis-ci.org/cchantep/vindinium-ocaml)
+
 *Prerequisites:*
 
 - Frontend `ocamlfind`

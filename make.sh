@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # Minimal build script
 
@@ -13,6 +13,7 @@ else
   BASEDIR=`dirname $0`
 fi
 
+PACKAGES="core netclient"
 SRCDIR="$BASEDIR/src"
 TESTDIR="$BASEDIR/test"
 BUILD="$BASEDIR/target"
@@ -21,10 +22,17 @@ if [ ! -d "$BUILD" ]; then
   mkdir -p "$BUILD"
 fi
 
-MODULES="hero board game state bot random_bot"
+MODULES="hero board game state bot random_bot io"
 MAIN="vindinium"
 PROGNAME="vindinium"
+
 TESTS="hero_test tile_fixtures tile_test board_test runner"
+
+LOPTS="-linkpkg -thread"
+
+for P in $PACKAGES; do
+    LOPTS="$LOPTS -package $P"
+done
 
 function compile {
   echo "Compile sources..."
@@ -39,7 +47,7 @@ function compile {
   SOURCES="$SOURCES $MAIN.ml"
 
   cd "$BUILD" && \
-    ocamlfind ocamlopt -o $PROGNAME -linkpkg -thread -package core $SOURCES
+    ocamlfind ocamlopt -o $PROGNAME $LOPTS $SOURCES
 }
 
 if [ "$ACTION" = "compile" ]; then (compile); fi

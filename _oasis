@@ -1,0 +1,41 @@
+Name: Vindinium
+Version: 0.1
+Synopsis: OCaml starter pack for Vindinium challenge.
+Authors: Cedric Chantepie 
+License: LGPL with OCaml linking exception
+Description: OCaml starter pack to try the Vindinium challenge 
+Homepage: http://vindinium.org
+SourceRepository master
+  Type: git
+  Location: https://github.com/cchantep/vindinium-ocaml.git
+  Branch: master
+  Browser: https://github.com/cchantep/vindinium-ocaml
+
+OASISFormat: 0.4
+BuildTools: ocamlbuild
+Plugins: META (0.4), DevFiles (0.4)
+
+Library "vindinium"
+  Path: src
+  Modules: Board, Bot, Game, Hero, Io, Random_bot, State
+  BuildDepends: core, netclient
+
+Executable "vindinium-prog"
+  Path: prog
+  MainIs: main.ml
+  CompiledObject: best
+  Install: false
+  BuildDepends: vindinium
+
+Executable "test_vindinium"
+  Path: test
+  MainIs: runner.ml
+  Build$: flag(tests)
+  CompiledObject: best
+  Install: false
+  BuildDepends: vindinium, oUnit
+
+Test "test_vindinium"
+  Run$: flag(tests)
+  TestTools: test_vindinium
+  Command: $test_vindinium

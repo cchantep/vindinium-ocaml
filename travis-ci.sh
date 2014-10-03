@@ -1,7 +1,7 @@
 # OPAM version to install
 export OPAM_VERSION=1.1.1
 # OPAM packages needed to build tests
-export OPAM_PACKAGES='ocamlfind core ounit ocamlnet'
+export OPAM_PACKAGES='ocamlfind core ounit ocamlnet oasis'
 
 # install ocaml from apt
 sudo apt-get update -qq
@@ -21,6 +21,7 @@ popd
 opam install -q -y ${OPAM_PACKAGES}
 
 # compile & run tests (here assuming OASIS DevFiles)
-#./configure --enable-tests
-#make test
-./make.sh test
+cp _tags.dist _tags
+oasis setup
+./configure --enable-tests
+make test

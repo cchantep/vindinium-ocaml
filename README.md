@@ -8,19 +8,15 @@ OCaml starter pack for [Vinidium](http://vindinium.org/) challenge (inspired fro
 
 *Prerequisites:*
 
-- Frontend `ocamlfind`
-- Compiler `ocamlopt` (tested with 4.02.x)
-- Modules `core`, `yojson` and `ounit` (for testing)
-
-A minimal build script is provided with `make.sh`:
+- Build tool OASIS (`opam install oasis`).
+- Compiler `ocamlbuild` (tested with 4.02.x).
+- Modules `core`, `ocamlnet`, `yojson` and `ounit` (for testing).
 
 ```
-vindinium-ocaml# ./make.sh
-vindinium-ocaml# ./target/vinidium
-
-vindinium-ocaml# ./make.sh test
-
-vindinium-ocaml# ./make.sh clean
+cp _tags.dist _tags
+oasis setup
+./configure --enable-tests
+make
 ```
 
 ## Usage

@@ -1,7 +1,7 @@
 # OPAM version to install
 export OPAM_VERSION=1.1.1
 # OPAM packages needed to build tests
-export OPAM_PACKAGES='ocamlfind core ounit ocamlnet oasis'
+export OPAM_PACKAGES='ocamlfind oasis core async_ssl cohttp ounit'
 
 # install ocaml from apt
 sudo apt-get update -qq

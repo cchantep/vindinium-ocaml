@@ -3,7 +3,7 @@ open Hero
 
 (** Board tiles *)
 type tile =
-  AirTile | FreeMineTile | TavernTile | WallTile 
+  AirTile | FreeMineTile | TavernTile | WoodTile 
   | HeroTile of hero_id
   | MineTile of hero_id
 
@@ -14,7 +14,7 @@ module Tile = struct
       | ' ' :: ' ' :: [] -> Some(AirTile)
       | '$' :: '-' :: [] -> Some(FreeMineTile)
       | '[' :: ']' :: [] -> Some(TavernTile)
-      | '#' :: '#' :: [] -> Some(WallTile)
+      | '#' :: '#' :: [] -> Some(WoodTile)
       | '@' :: h   :: [] -> (match (HeroId.from_char h) with 
                              | Some(id) -> Some(HeroTile(id)) | _ -> None)
       | '$' :: h   :: [] -> (match (HeroId.from_char h) with 
@@ -24,7 +24,7 @@ module Tile = struct
     (* Returns string representation of given tile. *)
     let to_string (t:tile) : string = match t with
       | AirTile    -> "  " | FreeMineTile -> "$-" 
-      | TavernTile -> "[]" | WallTile     -> "##"
+      | TavernTile -> "[]" | WoodTile     -> "##"
       | HeroTile(h) -> sprintf "@%i" (HeroId.to_int h)
       | MineTile(h) -> sprintf "$%i" (HeroId.to_int h)
   end

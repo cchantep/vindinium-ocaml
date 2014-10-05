@@ -116,6 +116,6 @@ module Hero_test = struct
         "Seventh hero ID from char 7" >:: seventh_from_char;
         "Eighth hero ID from char 8"  >:: eighth_from_char;
         "Ninth hero ID from char 9"   >:: ninth_from_char;
-        "Make first hero"                  >:: make_first_hero
+        "Make first hero"             >:: make_first_hero
       ]
   end

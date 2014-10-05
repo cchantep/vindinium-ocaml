@@ -16,9 +16,9 @@ module Tile_test = struct
       assert_equal ~msg:"Tavern representation should be \"[]\"" 
                    (Tile.to_string TavernTile) "[]"
 
-    let wall_to_str ctx = 
-      assert_equal ~msg:"Wall representation should be \"##\"" 
-                   (Tile.to_string WallTile) "##"
+    let wood_to_str ctx = 
+      assert_equal ~msg:"Wood representation should be \"##\"" 
+                   (Tile.to_string WoodTile) "##"
                    
     let hero_to_str ctx = 
       for i = 1 to 9 do 
@@ -49,10 +49,10 @@ module Tile_test = struct
          assert_equal ~msg:"Tavern should be parsed from \"[]\"" tile TavernTile
       | _ -> assert_failure "Fails to parse tavern tile"
 
-    let str_to_wall ctx = match (Tile.make "##") with 
+    let str_to_wood ctx = match (Tile.make "##") with 
       | Some(tile) -> 
-         assert_equal ~msg:"Wall should be parsed from \"  \"" tile WallTile
-      | _ -> assert_failure "Fails to parse wall tile"
+         assert_equal ~msg:"Wood should be parsed from \"  \"" tile WoodTile
+      | _ -> assert_failure "Fails to parse wood tile"
 
     let unsupported_str ctx = 
       assert_equal ~msg:"Should fail to parse unsupported string" 
@@ -81,12 +81,12 @@ module Tile_test = struct
         "Air string representation" >:: air_to_str;
         "Free mine string representation" >:: freemine_to_str;
         "Tavern string representation" >:: tavern_to_str;
-        "Wall string representation" >:: wall_to_str;
+        "Wood string representation" >:: wood_to_str;
         "Hero string representation" >:: hero_to_str;
         "Air parsing" >:: str_to_air;
         "Freemine parsing" >:: str_to_freemine;
         "Tavern parsing" >:: str_to_tavern;
-        "Wall parsing" >:: str_to_wall;
+        "Wood parsing" >:: str_to_wood;
         "Parsing unsupported" >:: unsupported_str;
         "Hero parsing" >:: str_to_hero;
         "Mine parsing" >:: str_to_mine

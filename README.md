@@ -10,7 +10,7 @@ OCaml starter pack for [Vinidium](http://vindinium.org/) challenge (inspired fro
 
 - Build tool OASIS (`opam install oasis`).
 - Compiler `ocamlbuild` (tested with 4.02.x).
-- Modules `core`, `ocamlnet`, `yojson` and `ounit` (for testing).
+- Modules `core`, `async_ssl`, `cohttp.async`, `yojson` and `ounit` (for testing).
 
 ```
 cp _tags.dist _tags
@@ -44,7 +44,7 @@ let h : hero =
 
 A tile is the place used by some game element (hero, tavern, ...) on the board at some coordinate (column, row).
 
-Constants instances defined in `Board` module are `AirTile`, `FreeMineTile`, `TavernTile` and `WallTile`.
+Constants instances defined in `Board` module are `AirTile`, `FreeMineTile`, `TavernTile` and `WoodTile`.
 
 Tiles for heroes mines and heroes themselves can be created using constructors `HeroTile(hero_id)` and `MineTile(hero_id)`.
 

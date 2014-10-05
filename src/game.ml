@@ -6,7 +6,7 @@ type game = {
     id       : string;    (* Game ID *)
     turn     : int;       (* Count of passed turn *)
     max_turn : int;       (* Max value for `turn` *)
-    fnished  : bool;      (* Is game finished? *)
+    finished : bool;      (* Is game finished? *)
     heroes   : hero list; (* Game heroes: players *)
     board    : board      (* Associated board *)
   }

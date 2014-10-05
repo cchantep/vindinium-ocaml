@@ -9,19 +9,25 @@ type tile =
 
 (** Tile companion *)
 module Tile = struct
-    (* Creates tile instance corresponding to string. *)
-    let make (s:string) = match String.to_list s with
-      | ' ' :: ' ' :: [] -> Some(AirTile)
-      | '$' :: '-' :: [] -> Some(FreeMineTile)
-      | '[' :: ']' :: [] -> Some(TavernTile)
-      | '#' :: '#' :: [] -> Some(WoodTile)
-      | '@' :: h   :: [] -> (match (HeroId.from_char h) with 
-                             | Some(id) -> Some(HeroTile(id)) | _ -> None)
-      | '$' :: h   :: [] -> (match (HeroId.from_char h) with 
-                             | Some(id) -> Some(MineTile(id)) | _ -> None)
-      | _ -> None
+    (** Creates tile instance from given character list. *)
+    let from_chars (cs: char list) : (tile, string) Result.t =
+      let open Result.Monad_infix in
+      match cs with
+      | ' ' :: ' ' :: [] -> Ok AirTile
+      | '$' :: '-' :: [] -> Ok FreeMineTile
+      | '[' :: ']' :: [] -> Ok TavernTile
+      | '#' :: '#' :: [] -> Ok WoodTile
+      | '@' :: h   :: [] -> HeroId.from_char h >>| fun id -> HeroTile(id)
+      | '$' :: h   :: [] -> HeroId.from_char h >>| fun id -> MineTile(id)
+      | _ -> Error "Invalid tile string"
 
-    (* Returns string representation of given tile. *)
+    (** Creates tile instance corresponding to string. *)
+    let make (s:string) : (tile, string) Result.t = 
+      Result.map_error 
+        (from_chars (String.to_list s))
+        ~f:(fun _ -> sprintf "Invalid tile string: %s" s)
+
+    (** Returns string representation of given tile. *)
     let to_string (t:tile) : string = match t with
       | AirTile    -> "  " | FreeMineTile -> "$-" 
       | TavernTile -> "[]" | WoodTile     -> "##"

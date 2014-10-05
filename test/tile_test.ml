@@ -1,4 +1,5 @@
 open Core.Std
+open Result
 open OUnit2
 open Hero
 open Board
@@ -24,7 +25,7 @@ module Tile_test = struct
       for i = 1 to 9 do 
         let hid = HeroId.from_int i in 
         match hid with 
-        | Some(id) -> 
+        | Ok(id) -> 
            let tile = HeroTile(id) in
            assert_equal 
              ~msg:(sprintf 
@@ -34,29 +35,29 @@ module Tile_test = struct
       done
 
     let str_to_air ctx = match (Tile.make "  ") with 
-      | Some(tile) -> 
+      | Ok(tile) -> 
          assert_equal ~msg:"Air should be parsed from \"  \"" tile AirTile
       | _ -> assert_failure "Fails to parse air tile"
 
     let str_to_freemine ctx = match (Tile.make "$-") with 
-      | Some(tile) -> 
+      | Ok(tile) -> 
          assert_equal ~msg:"Free mine should be parsed from \"$-\"" 
                       tile FreeMineTile
       | _ -> assert_failure "Fails to parse free mine tile"
 
     let str_to_tavern ctx = match (Tile.make "[]") with 
-      | Some(tile) -> 
+      | Ok(tile) -> 
          assert_equal ~msg:"Tavern should be parsed from \"[]\"" tile TavernTile
       | _ -> assert_failure "Fails to parse tavern tile"
 
     let str_to_wood ctx = match (Tile.make "##") with 
-      | Some(tile) -> 
+      | Ok(tile) -> 
          assert_equal ~msg:"Wood should be parsed from \"  \"" tile WoodTile
       | _ -> assert_failure "Fails to parse wood tile"
 
     let unsupported_str ctx = 
       assert_equal ~msg:"Should fail to parse unsupported string" 
-                   (Tile.make "#-") None
+                   (Tile.make "#-") (Error "Invalid tile string: #-")
 
     let hero_expectations fixtures =
       List.fold_left 
@@ -65,7 +66,7 @@ module Tile_test = struct
             let (parsed, expected) = ls in 
             let (str, exp) = d in
             match (Tile.make str) with 
-            | Some(tile) -> (tile :: parsed, exp :: expected) | _ -> ls)
+            | Ok(tile) -> (tile :: parsed, exp :: expected) | _ -> ls)
 
     let str_to_hero ctx = 
       let open Tile_fixtures in

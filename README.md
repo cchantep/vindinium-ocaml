@@ -4,13 +4,11 @@ OCaml starter pack for [Vinidium](http://vindinium.org/) challenge (inspired fro
 
 ## Build
 
-[![Build Status](https://secure.travis-ci.org/cchantep/vindinium-ocaml.png?branch=master)](http://travis-ci.org/cchantep/vindinium-ocaml)
-
 *Prerequisites:*
 
 - Build tool OASIS (`opam install oasis`).
-- Compiler `ocamlbuild` (tested with 4.02.x).
-- Modules `core`, `async_ssl`, `cohttp.async`, `yojson` and `ounit` (for testing).
+- Compiler *ocamlbuild* (tested with 4.02.x).
+- Modules *core*, *async_ssl*, *cohttp.async*, *yojson* and *ounit* (for testing).
 
 ```
 cp _tags.dist _tags
@@ -21,7 +19,7 @@ make
 
 ## Usage
 
-Once built, executable `main.native` must be available.
+Once built, executable `main.native` is available to start the client.
 
 ```
 # ./main.native
@@ -44,6 +42,8 @@ Start Vindinium client
 ```
 
 ## API
+
+- See [test cases](https://github.com/cchantep/vindinium-ocaml/tree/master/test)
 
 **Hero:**
 

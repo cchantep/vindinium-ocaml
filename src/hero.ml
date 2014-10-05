@@ -5,10 +5,11 @@ type hero_id   =
   FifthHero | SixthHero   | SeventhHero | EighthHero | 
   NinthHero
 
-type hero_pos  = int * int
-type hero_life = int
-type hero_gold = int
-type hero_elo  = int
+type hero_pos   = int * int
+type hero_life  = int
+type hero_gold  = int
+type hero_elo   = int
+type mine_count = int
 
 (** Hero ID companion *)
 module HeroId = struct
@@ -33,10 +34,12 @@ module HeroId = struct
 type hero = {
     id             : hero_id;
     name           : string;
+    user_id        : string;
     position       : hero_pos;
     spawn_position : hero_pos;
     life           : hero_life;
     gold           : hero_gold;
+    mines          : mine_count;
     elo            : hero_elo;
     crashed        : bool;
   }
@@ -44,16 +47,15 @@ type hero = {
 (** Type companion *)
 module Hero = struct
     (* Make a hero instance *)
-    let make ~id ~name ~(pos:int*int) ~(spawn:int*int) 
-             ?(life = 1) ?(gold = 0) ?(elo = 0) ?(crashed = false) () : hero = 
+    let make ~id ~name ~user_id ~(pos:int*int) ~(spawn:int*int) ?(life = 1) ?(gold = 0) ?(elo = 0) ?(mines = 0) ?(crashed = false) () : hero = 
       let (px, py) = pos in 
       let (sx, sy) = spawn in 
-      { id; name; position = (px,py); spawn_position = (sx,sy); 
-        life; gold; elo; crashed }
+      { id; name; user_id; position = (px,py); spawn_position = (sx,sy); 
+        life; gold; mines; elo; crashed }
 
     (* Returns string representation. *)
     let to_string (h : hero) : string = match h with 
-      | { id; name = n; position = (px, py); spawn_position = (sx, sy); 
-          life = l; gold = g; elo = e; crashed = c } -> 
-         sprintf "Hero(id = %i, name = %s, position = %i@%i, spawn = %i@%i %i %i %i %B)" (HeroId.to_int id) n px py sx sy l g e c
+      | { id; name; user_id; position = (px, py); spawn_position = (sx, sy); 
+          life = l; gold = g; mines; elo; crashed = c } -> 
+         sprintf "Hero(id = %i, name = %s, user_id = %s, position = %i@%i, spawn = %i@%i %i %i %i %B)" (HeroId.to_int id) name user_id px py sx sy l g elo c
   end

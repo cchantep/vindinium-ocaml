@@ -4,7 +4,7 @@ open Cohttp_async
 open Cohttp_async.Response
 
 (** Successful response to HTTP POST *)
-type post_success = Response.t * (string Pipe.Reader.t)
+type post_success = Response.t * string
 
 (** HTTP success or error resulting from POST request *)
 type post_result = (post_success, string) Result.t 
@@ -25,7 +25,8 @@ let with_post ?(retry:int=2) (uri:Uri.t) (params: (string * string) list) ~(f: p
      Client.post uri ~headers ~body:(Body.of_string rawbody)
      >>= (fun (resp, body) -> 
           match resp.status with 
-          | `OK -> return (Ok((resp, Body.to_pipe body)))
+          | `OK -> Deferred.map 
+                     (Body.to_string body) ~f:(fun bstr -> Ok((resp, bstr)))
           | e -> return (Error(Cohttp.Code.string_of_status e)))) in
   let rec run_post : (post_result * int) -> 'a result = 
     (* try until get HTTP success, or retry limit reached *)

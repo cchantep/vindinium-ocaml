@@ -2,30 +2,35 @@ open Core.Std
 open Async.Std
 
 open Io
+open Json
 
 (* How many times to retry to communicate with server in case of error. *)
 let retry : int = 3
 
 (* Base URL to default server. *)
-let default_server = "http://vindinium.org/api/"
+let default_server = "http://vindinium.org/"
 
 let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) =
   let _ = printf "\r\n  [CONFIGURED] mode = '%s', private key = '%s', limit = %i, server = '%s'\r\n\r\n" mode key limit server in
   let ini_params = ("key", key) :: [] in
-  let url = Uri.of_string (sprintf "%s/api/%s" server mode) in
-  let _ = printf "uri = %s\n" (sprintf "%s/api/%s" server mode) in
-  let x = 
-    Io.with_post 
-      url ini_params 
-      ~f:(function (resp, body) -> return (Ok (resp, body))) in
-  let _ = 
-    Deferred.map 
-      x ~f:(function 
-               Ok((_, _)) -> (printf "Ok\n"); (exit 0)
-             | Error(msg) -> (printf "Fails to play: %s\r\n" msg); (exit 4)) in
-              
-  Deferred.never ()
-
+  let mode_params = match mode with 
+    | "training" -> ("turns", string_of_int limit) :: ini_params 
+    | _ (* actually arena *) -> ini_params in
+  let url = 
+    let len = String.length server in
+    let l = (String.sub server ~pos:(len-1) ~len:1) in
+    let s = (match l with
+             | "/" -> (* normalize without ending / *)
+                String.sub server ~pos:0 ~len:(len-1)
+             | _ -> server) in
+    Uri.of_string (sprintf "%s/api/%s" s mode) in
+  (Io.with_post 
+     url mode_params ~f:(function (resp, body) -> return (Ok (resp, body))))
+  >>| (function Error(msg) 
+                -> Error (sprintf "Fails to get initial state: %s\n" msg)
+              | Ok((_, json)) -> parse_state json)
+  >>| (fun _ -> ())
+        
 let () = 
   let _mode : string -> (string, string) Result.t = 
     (fun s ->
@@ -51,7 +56,7 @@ let () =
               ~doc:" Game mode ('arena' or 'training')"
       +> flag "-key" (required string) ~doc: " Private key"
       +> flag "-limit" (optional_with_default 10 int) 
-              ~doc:" Number of turn to play (default: 10)"
+              ~doc:" Number of turn to play (only for training, default: 10)"
       +> flag "-server" (optional_with_default default_server string)
               ~doc:(sprintf " Base URL to server (default: %s)" default_server)
     )

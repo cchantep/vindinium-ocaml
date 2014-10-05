@@ -21,6 +21,30 @@ make
 
 ## Usage
 
+Once built, executable `main.native` must be available.
+
+```
+# ./main.native
+Start Vindinium client
+
+  main.native 
+
+=== flags ===
+
+  -key           Private key
+  -mode          Game mode ('arena' or 'training')
+  [-limit]       Number of turn to play (only for training, default: 10)
+  [-server]      Base URL to server (default: http://vindinium.org/)
+  [-build-info]  print info about this build and exit
+  [-version]     print the version of this build and exit
+  [-help]        print this help text and exit
+                 (alias: -?)
+
+# ./main.native -key your_key -mode training
+```
+
+## API
+
 **Hero:**
 
 Hero is a game player, identified by numerical ID from 1 to 9 that can be prepared as following.

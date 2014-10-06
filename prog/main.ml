@@ -3,6 +3,9 @@ open Async.Std
 
 open Io
 open Json
+open Bot
+open Game
+open State
 
 (* How many times to retry to communicate with server in case of error. *)
 let retry : int = 3
@@ -10,8 +13,12 @@ let retry : int = 3
 (* Base URL to default server. *)
 let default_server = "http://vindinium.org/"
 
-let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) =
-  let _ = printf "\r\n  [CONFIGURED] mode = '%s', private key = '%s', limit = %i, server = '%s'\r\n\r\n" mode key limit server in
+(* Set bot to be used. Replace [Random_bot.instance] by yours. *)
+let automatic_bot : bot = 
+  let open Random_bot in Random_bot.instance
+
+let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) =
+  (* DEBUG: let _ = printf "\r\n  [CONFIGURED] mode = '%s', private key = '%s', limit = %i, server = '%s'\r\n\r\n" mode key limit server in *)
   let ini_params = ("key", key) :: [] in
   let mode_params = match mode with 
     | "training" -> ("turns", string_of_int limit) :: ini_params 
@@ -24,13 +31,32 @@ let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) =
                 String.sub server ~pos:0 ~len:(len-1)
              | _ -> server) in
     Uri.of_string (sprintf "%s/api/%s" s mode) in
-  (Io.with_post 
-     url mode_params ~f:(function (resp, body) -> return (Ok (resp, body))))
-  >>| (function Error(msg) 
-                -> Error (sprintf "Fails to get initial state: %s\n" msg)
-              | Ok((_, json)) -> parse_state json)
-  >>| (fun _ -> ())
-        
+  let init = 
+    Io.with_post url mode_params 
+    >>| (function 
+          | Error(msg) -> Error (sprintf "Fails to get initial state: %s" msg)
+          | Ok(json) -> parse_state json) 
+    >>| (fun initial -> 
+         let open Formatter in
+         match initial with 
+         | Error(msg) -> printf "%s\n" msg
+         | Ok(state) -> printf "%s" (string_of_state state)) in 
+  let rec play : state -> unit Deferred.t = 
+    (fun current ->
+     if (current.game.finished) then return (printf "Game is over\r\n")
+     else 
+       match (bot current) with
+       | Error(msg) -> return (printf "Fails to get next direction: %s\r\n" msg)
+       | Ok(dir) ->
+          let play_params = ("dir", Direction.to_string dir) :: ini_params in
+          let play_url = Uri.of_string current.play_url in
+          Io.with_post play_url play_params 
+          >>| (function 
+                | Error(msg) -> printf "Fails to play: %s\n" msg
+                | Ok(json) -> printf "Toto")
+    )
+  in init
+          
 let () = 
   let _mode : string -> (string, string) Result.t = 
     (fun s ->
@@ -59,8 +85,9 @@ let () =
               ~doc:" Number of turn to play (only for training, default: 10)"
       +> flag "-server" (optional_with_default default_server string)
               ~doc:(sprintf " Base URL to server (default: %s)" default_server)
+      +> flag "-bot" no_arg ~doc:" If present, will use automatic bot"
     )
-    (fun m key l server ->
+    (fun m key l server auto ->
      let m' = _mode m in
      let l' = positive l in
      let s' = _uri server in
@@ -69,6 +96,6 @@ let () =
      | (_, Error(msg), _) -> _err msg 2
      | (_, _, Error(msg)) -> _err msg 3
      | (Ok(mode), Ok(limit), Ok(_)) -> 
-        (fun _ -> run ~mode ~key ~limit ~server)
+        (fun _ -> run ~mode ~key ~limit ~server ~bot:automatic_bot)
     )
   |> Command.run

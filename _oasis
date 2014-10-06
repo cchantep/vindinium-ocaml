@@ -18,7 +18,7 @@ Plugins: META (0.4), DevFiles (0.4)
 Library "vindinium"
   Path: src
   Modules: Board, Bot, Game, Hero, Io, Random_bot, State
-  BuildDepends: core, async_ssl, cohttp.async, yojson
+  BuildDepends: core, async_ssl, cohttp.async, yojson, ansicolor
 
 Executable "vindinium-prog"
   Path: prog

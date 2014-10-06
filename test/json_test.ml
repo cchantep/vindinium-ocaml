@@ -23,6 +23,12 @@ module Json_test = struct
         let open Json_fixtures in
         match parse_board (Yojson.Basic.from_string board1json) with
         | Ok(parsed) ->
+           (match (parsed @ (2,1)) with
+           | Some(tile) -> 
+              assert_equal ~msg:"Tile (2,1) should be Hero #1"
+                           tile (HeroTile FirstHero)
+           | _ -> 
+              assert_failure "Should find a tile at (2,1)");
            assert_equal ~msg:"Board should be expected one" parsed board1
         | Error msg -> assert_failure (sprintf "Fails to parse board: %s" msg)
 
@@ -30,6 +36,12 @@ module Json_test = struct
         let open Json_fixtures in
         match parse_board (Yojson.Basic.from_string board2json) with
         | Ok(parsed) ->
+           (match (parsed @ (7,3)) with
+           | Some(tile) -> 
+              assert_equal ~msg:"Tile (7,3) should be mine of hero #4"
+                           tile (MineTile FourthHero)
+           | _ -> 
+              assert_failure "Should find a tile at (7,3)");
            assert_equal ~msg:"Board should be expected one" parsed board2
         | Error(msg) -> assert_failure (sprintf "Fails to parse board: %s" msg)
 
@@ -81,6 +93,8 @@ module Json_test = struct
         "Parse valid hero"        >:: parse_valid_hero;
         "Parse valid tiles 10x10" >:: parse_raw_tiles1;
         "Parse valid tiles 18x18" >:: parse_raw_tiles2;
+        "Parse valid board 10x10" >:: parse_valid_board1;
+        "Parse valid board 18x18" >:: parse_valid_board2;
         "Parse valid game 10x10"  >:: parse_valid_game1;
         "Parse valid state 10x10" >:: parse_valid_state1
       ]

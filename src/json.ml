@@ -10,7 +10,7 @@ let parse_pos (json:Yojson.Basic.json): (int * int, string) Result.t =
   let open Yojson.Basic.Util in
   try (
     let x = json |> member "x" |> to_int in
-    let y = json |> member "y" |> to_int in Ok (x, y)
+    let y = json |> member "y" |> to_int in Ok (y, x) (* ? *)
   ) with e -> Error (Exn.to_string e)
 
 (** Parses hero from [json]. *)
@@ -48,9 +48,9 @@ let parse_tiles (size:int) (raw:string): (tile list list, string) Result.t =
         match (Tile.from_chars [a; b]) with 
         | Error(msg) -> Error(msg)
         | Ok(tile) -> 
-           if (idx > 0 && (phys_equal (idx mod size) 0)) then (* new row *)
+           if (idx > 0 && (phys_equal (idx mod size) 0)) then (* new col *)
              parse rem (idx+1) [tile] ((List.rev row) :: tiles)
-           else parse rem (idx+1) (tile :: row) tiles (* new col *)
+           else parse rem (idx+1) (tile :: row) tiles (* new row *)
     ) in parse (String.to_list raw) 0 [] []
 
 (** Parses board from [json]. *)

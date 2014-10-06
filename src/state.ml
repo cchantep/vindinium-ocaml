@@ -18,5 +18,5 @@ type state = {
 module State = struct
     (** Returns hero of given game state. *)
     let hero (st:state) : hero option = 
-      List.nth st.game.heroes (HeroId.to_int st.hero_id)
+      List.nth st.game.heroes ((HeroId.to_int st.hero_id)-1)
   end

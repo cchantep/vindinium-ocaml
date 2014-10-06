@@ -38,25 +38,22 @@ module Tile = struct
 (** Board itself *)
 type board = {
     size  : int;
-    tiles : tile list(*y*) list(*x*); (* Tiles matrix *)
+    tiles : tile list(*col*) list(*row*); (* Tiles matrix *)
   }
 
 (** Board companion *)
 module Board = struct
-    (**
-     * Creates a board of 'n' (size) rows of 'n' columns, 
-     * filled only with air. 
-     *)
+    (** Creates a board of 'n' (size) rows of 'n' columns, filled only with air. *)
     let make (size:int) : board = 
-      let airRow = Array.to_list (Array.create size AirTile) in
-      let tiles = Array.to_list (Array.create size airRow) in
+      let airCol = Array.to_list (Array.create size AirTile) in
+      let tiles = Array.to_list (Array.create size airCol) in
       { size; tiles }
 
-    (** Returns specified tile, if coordinates are on the given board. *)
+    (** Returns specified tile, if coordinates (first [col] = 0, first [row] = 0) are on the given board. *)
     let get (b:board) ~(col:int) ~(row:int) : tile option = 
       if (row < 0 || row >= b.size || col < 0 || col >= b.size) then None
-      else match List.nth b.tiles col with
-           | Some(c) -> List.nth c row
+      else match List.nth b.tiles row with
+           | Some(r) -> List.nth r col
            | _ -> None
 
     (** Checks whether tile specified by column and row is on given board. *)
@@ -64,31 +61,24 @@ module Board = struct
       if (row >= 0 && row < b.size && col >= 0 && col < b.size) 
       then true else false
 
-    (** 
-     * Returns new some new board with tile set if coordinates are valid,
-     * or none if not (board considered unchanged).
-     *)
+    (** Returns new some new board with tile set if coordinates are valid (first [col] = 0, first [row] = 0), or none if not (board considered unchanged). *)
     let set (b:board) ~(col:int) ~(row:int) (t:tile) : board option = 
       if (is_on b ~col:col ~row:row) then
-        let (_, tiles) = 
+        let (_, rev_tiles) =
           List.fold_left 
             b.tiles ~init:(0, [])
-            ~f:(fun cst r -> 
-                let (i, cs) = cst in
-                let rcopy = 
-                  if (phys_equal i col) then
-                    let (_, rup) = 
-                      List.fold_left 
-                        r ~init:(0, [])
-                        ~f:(fun rst tile ->
-                            let (j, ts) = rst in
-                               let tcopy = 
-                                 if (phys_equal j row) then t else tile in
-                               (j+1, tcopy :: ts)) in List.rev rup 
-                  else r
-                in (i+1, rcopy :: cs)) in
-        let copy = { size = b.size; tiles = List.rev tiles } 
-        in Some(copy)
+            ~f:(fun (row_idx, tiles_copy) row_tiles ->
+                if (phys_equal row_idx row) then
+                  let (_, rev_row) = 
+                    List.fold_left 
+                      row_tiles ~init:(0, [])
+                      ~f:(fun (col_idx, row_copy) orig_tile ->
+                          if (phys_equal col_idx col)
+                          then (col_idx+1, t :: row_copy)
+                          else (col_idx+1, orig_tile :: row_copy))
+                  in (row_idx+1, (List.rev rev_row) :: tiles_copy)
+                else (row_idx+1, row_tiles :: tiles_copy))
+        in Some { size = b.size; tiles = (List.rev rev_tiles) }
       else None
 
   end

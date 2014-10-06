@@ -8,7 +8,7 @@ OCaml starter pack for [Vinidium](http://vindinium.org/) challenge (inspired fro
 
 - Build tool OASIS (`opam install oasis`).
 - Compiler *ocamlbuild* (tested with 4.02.x).
-- Modules *core*, *async_ssl*, *cohttp.async*, *yojson* and *ounit* (for testing).
+- Modules *core*, *async_ssl*, *cohttp.async*, *yojson*  and *ounit* (for testing).
 
 ```
 cp _tags.dist _tags
@@ -41,8 +41,13 @@ Start Vindinium client
 # ./main.native -key your_key -mode training
 ```
 
+## Try your bot
+
+In order to try to play with your own bot, code of [prog.ml at line 17](https://github.com/cchantep/vindinium-ocaml/blob/master/prog/main.ml#L17) must be updated: `let automatic_bot : bot = your_bot`.
+
 ## API
 
+- See [OCamldoc](http://cchantep.github.io/vindinium-ocaml/)
 - See [test cases](https://github.com/cchantep/vindinium-ocaml/tree/master/test)
 
 **Hero:**

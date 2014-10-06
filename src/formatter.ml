@@ -16,7 +16,7 @@ let pad_to (s:string) (len:int) : string =
 let string_of_tile (t:tile) : string = Tile.to_string t
 
 (** Returns pretty string for board [b]. *)
-let string_of_board ?(sep:string = "|") (b:board) : string = 
+let string_of_board (b:board) : string = 
   let rec topbar : string list -> int -> string = 
     (fun cur idx -> 
      if (phys_equal idx b.size) then String.concat ~sep:"|" (List.rev cur)
@@ -33,7 +33,7 @@ let string_of_board ?(sep:string = "|") (b:board) : string =
       b.tiles ~init:(1, "") 
       ~f:(fun (i, str) row ->
           let row_str = 
-            String.concat ~sep:sep (List.map row ~f:string_of_tile) in
+            String.concat ~sep:"|" (List.map row ~f:string_of_tile) in
           (i+1, String.concat [str; (sprintf " %02i|" i); row_str; "|\r\n"])) in
   String.concat ["    "; (topbar [] 0); "\r\n"; "   +"; 
                  hsep; "+\r\n"; tiles; "   +"; hsep; "+"]

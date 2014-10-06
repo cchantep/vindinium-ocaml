@@ -17,7 +17,7 @@ let default_server = "http://vindinium.org/"
 let automatic_bot : bot = 
   let open Random_bot in Random_bot.instance
 
-let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) =
+let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) : unit Deferred.t =
   (* DEBUG: let _ = printf "\r\n  [CONFIGURED] mode = '%s', private key = '%s', limit = %i, server = '%s'\r\n\r\n" mode key limit server in *)
   let ini_params = ("key", key) :: [] in
   let mode_params = match mode with 
@@ -31,18 +31,10 @@ let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) =
                 String.sub server ~pos:0 ~len:(len-1)
              | _ -> server) in
     Uri.of_string (sprintf "%s/api/%s" s mode) in
-  let init = 
-    Io.with_post url mode_params 
-    >>| (function 
-          | Error(msg) -> Error (sprintf "Fails to get initial state: %s" msg)
-          | Ok(json) -> parse_state json) 
-    >>| (fun initial -> 
-         let open Formatter in
-         match initial with 
-         | Error(msg) -> printf "%s\n" msg
-         | Ok(state) -> printf "%s" (string_of_state state)) in 
+  let open Formatter in
   let rec play : state -> unit Deferred.t = 
     (fun current ->
+     (printf "%s" (string_of_state current));
      if (current.game.finished) then return (printf "Game is over\r\n")
      else 
        match (bot current) with
@@ -51,11 +43,23 @@ let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) =
           let play_params = ("dir", Direction.to_string dir) :: ini_params in
           let play_url = Uri.of_string current.play_url in
           Io.with_post play_url play_params 
-          >>| (function 
-                | Error(msg) -> printf "Fails to play: %s\n" msg
-                | Ok(json) -> printf "Toto")
-    )
-  in init
+          >>= (function 
+                | Error(msg) -> return (printf "Fails to play: %s\n" msg)
+                | Ok(json) -> 
+                   match (parse_state json) with
+                   | Error(msg) -> 
+                      return (printf "Fails to parse state: %s\n" msg)
+                   | Ok(state) -> play state)
+    ) in
+    Io.with_post url mode_params 
+    >>= (function 
+          | Error(msg) -> 
+             return (printf "Fails to get initial state: %s\r\n" msg)
+          | Ok(json) -> 
+             match (parse_state json) with
+             | Error(msg) -> 
+                return (printf "Fails to parse initial state: %s\r\n" msg)
+             | Ok(state) -> play state)
           
 let () = 
   let _mode : string -> (string, string) Result.t = 

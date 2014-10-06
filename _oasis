@@ -14,11 +14,21 @@ SourceRepository master
 OASISFormat: 0.4
 BuildTools: ocamlbuild
 Plugins: META (0.4), DevFiles (0.4)
+AlphaFeatures: ocamlbuild_more_args
 
 Library "vindinium"
   Path: src
   Modules: Board, Bot, Game, Hero, Io, Random_bot, State
-  BuildDepends: core, async_ssl, cohttp.async, yojson, ansicolor
+  BuildDepends: core, async_ssl, cohttp.async, yojson
+
+Document "vindinium_api"
+  Type: ocamlbuild (0.4)
+  BuildTools: ocamldoc
+  Title: API reference for Vindinium
+  XOCamlbuildPath: .
+  XOCamlbuildExtraArgs:
+    "-docflags '-thread -colorize-code -short-functors -charset utf-8'"
+  XOCamlbuildLibraries: vindinium
 
 Executable "vindinium-prog"
   Path: prog

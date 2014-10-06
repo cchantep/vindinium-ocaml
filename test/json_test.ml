@@ -53,10 +53,10 @@ module Json_test = struct
                          h.name "any_name");
            (assert_equal ~msg:"Parsed user ID should be 'po33ddb8'"
                          h.user_id (Some "po33ddb8"));
-           (assert_equal ~msg:"Parsed hero position should be (1, 2)"
-                         h.position (1, 2)); 
-           (assert_equal ~msg:"Parsed spawn position should be (3, 2)"
-                         h.spawn_position (3, 2));
+           (assert_equal ~msg:"Parsed hero position should be (2, 1)"
+                         h.position (2, 1)); 
+           (assert_equal ~msg:"Parsed spawn position should be (2, 3)"
+                         h.spawn_position (2, 3));
            (assert_equal ~msg:"Parsed life count should be 100" h.life 100);
            (assert_equal ~msg:"Parsed gold count should be 10" h.gold 10);
            (assert_equal ~msg:"Parsed mine count should be 1" h.mines 1);
@@ -70,7 +70,7 @@ module Json_test = struct
     let parse_valid_pos ctx = 
       match parse_pos (Yojson.Basic.from_string "{\"x\":1,\"y\":2}") with
       | Ok((x, y)) -> 
-         assert_equal ~msg:"Parsed position should be (1, 2)" (x, y) (1, 2)
+         assert_equal ~msg:"Parsed position should be (2, 1)" (x, y) (2, 1)
       | Error(msg) -> 
          assert_failure (sprintf "Fails to parse position: %s" msg)
 

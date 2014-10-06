@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="next" href="Bot.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Board" rel="Chapter" href="Board.html">
+<link title="Bot" rel="Chapter" href="Bot.html">
+<link title="Game" rel="Chapter" href="Game.html">
+<link title="Hero" rel="Chapter" href="Hero.html">
+<link title="Io" rel="Chapter" href="Io.html">
+<link title="Random_bot" rel="Chapter" href="Random_bot.html">
+<link title="State" rel="Chapter" href="State.html"><title>Board</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Bot.html" title="Bot">Next</a>
+</div>
+<h1>Module <a href="type_Board.html">Board</a></h1>
+
+<pre><span class="keyword">module</span> Board: <code class="code"><span class="keyword">sig</span></code> <a href="Board.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Board tiles<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEtile"><span class="keyword">type</span> <code class="type"></code>tile</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtile.AirTile"><span class="constructor">AirTile</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtile.FreeMineTile"><span class="constructor">FreeMineTile</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtile.TavernTile"><span class="constructor">TavernTile</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtile.WoodTile"><span class="constructor">WoodTile</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtile.HeroTile"><span class="constructor">HeroTile</span></span> <span class="keyword">of</span> <code class="type"><a href="Hero.html#TYPEhero_id">Hero.hero_id</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtile.MineTile"><span class="constructor">MineTile</span></span> <span class="keyword">of</span> <code class="type"><a href="Hero.html#TYPEhero_id">Hero.hero_id</a></code></code></td>
+
+</tr></table>
+
+<div class="info ">
+Board tiles<br>
+</div>
+
+
+<pre><span class="keyword">module</span> <a href="Board.Tile.html">Tile</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Board.Tile.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Tile companion
+</div>
+
+<pre><code><span id="TYPEboard"><span class="keyword">type</span> <code class="type"></code>board</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTboard.size">size</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTboard.tiles">tiles</span>&nbsp;: <code class="type"><a href="Board.html#TYPEtile">tile</a> list list</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Board itself<br>
+</div>
+
+
+<pre><span class="keyword">module</span> <a href="Board.Board.html">Board</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Board.Board.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Board companion
+</div>
+
+<pre><span id="VAL(@)"><span class="keyword">val</span> (@)</span> : <code class="type"><a href="Board.html#TYPEboard">board</a> -> int * int -> <a href="Board.html#TYPEtile">tile</a> option</code></pre><div class="info ">
+Convenient infix operator to get specified tile on given board.<br>
+</div>
+
+<pre><span id="VAL(^)"><span class="keyword">val</span> (^)</span> : <code class="type">int * int -> <a href="Board.html#TYPEboard">board</a> -> bool</code></pre><div class="info ">
+Convenient infox operator to check whether coordinates are on board.<br>
+</div>
+</body></html>

@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Game.html">
+<link rel="next" href="Io.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Board" rel="Chapter" href="Board.html">
+<link title="Bot" rel="Chapter" href="Bot.html">
+<link title="Game" rel="Chapter" href="Game.html">
+<link title="Hero" rel="Chapter" href="Hero.html">
+<link title="Io" rel="Chapter" href="Io.html">
+<link title="Random_bot" rel="Chapter" href="Random_bot.html">
+<link title="State" rel="Chapter" href="State.html"><title>Hero</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Game.html" title="Game">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Io.html" title="Io">Next</a>
+</div>
+<h1>Module <a href="type_Hero.html">Hero</a></h1>
+
+<pre><span class="keyword">module</span> Hero: <code class="code"><span class="keyword">sig</span></code> <a href="Hero.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Hero ID companion<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEhero_id"><span class="keyword">type</span> <code class="type"></code>hero_id</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero_id.FirstHero"><span class="constructor">FirstHero</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero_id.SecondHero"><span class="constructor">SecondHero</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero_id.ThirdHero"><span class="constructor">ThirdHero</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero_id.FourthHero"><span class="constructor">FourthHero</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero_id.FifthHero"><span class="constructor">FifthHero</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero_id.SixthHero"><span class="constructor">SixthHero</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero_id.SeventhHero"><span class="constructor">SeventhHero</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero_id.EighthHero"><span class="constructor">EighthHero</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero_id.NinthHero"><span class="constructor">NinthHero</span></span></code></td>
+
+</tr></table>
+
+
+
+<pre><span id="TYPEhero_pos"><span class="keyword">type</span> <code class="type"></code>hero_pos</span> = <code class="type">int * int</code> </pre>
+
+
+<pre><span id="TYPEhero_life"><span class="keyword">type</span> <code class="type"></code>hero_life</span> = <code class="type">int</code> </pre>
+
+
+<pre><span id="TYPEhero_gold"><span class="keyword">type</span> <code class="type"></code>hero_gold</span> = <code class="type">int</code> </pre>
+
+
+<pre><span id="TYPEhero_elo"><span class="keyword">type</span> <code class="type"></code>hero_elo</span> = <code class="type">int</code> </pre>
+
+
+<pre><span id="TYPEmine_count"><span class="keyword">type</span> <code class="type"></code>mine_count</span> = <code class="type">int</code> </pre>
+
+
+<pre><span class="keyword">module</span> <a href="Hero.HeroId.html">HeroId</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Hero.HeroId.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Hero ID companion
+</div>
+
+<pre><code><span id="TYPEhero"><span class="keyword">type</span> <code class="type"></code>hero</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero.id">id</span>&nbsp;: <code class="type"><a href="Hero.html#TYPEhero_id">hero_id</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero.name">name</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero.user_id">user_id</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero.position">position</span>&nbsp;: <code class="type"><a href="Hero.html#TYPEhero_pos">hero_pos</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero.spawn_position">spawn_position</span>&nbsp;: <code class="type"><a href="Hero.html#TYPEhero_pos">hero_pos</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero.life">life</span>&nbsp;: <code class="type"><a href="Hero.html#TYPEhero_life">hero_life</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero.gold">gold</span>&nbsp;: <code class="type"><a href="Hero.html#TYPEhero_gold">hero_gold</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero.mines">mines</span>&nbsp;: <code class="type"><a href="Hero.html#TYPEmine_count">mine_count</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero.elo">elo</span>&nbsp;: <code class="type"><a href="Hero.html#TYPEhero_elo">hero_elo</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELThero.crashed">crashed</span>&nbsp;: <code class="type">bool</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Game hero/player<br>
+</div>
+
+
+<pre><span class="keyword">module</span> <a href="Hero.Hero.html">Hero</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Hero.Hero.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Type companion
+</div>
+</body></html>

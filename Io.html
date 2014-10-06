@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Hero.html">
+<link rel="next" href="Random_bot.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Board" rel="Chapter" href="Board.html">
+<link title="Bot" rel="Chapter" href="Bot.html">
+<link title="Game" rel="Chapter" href="Game.html">
+<link title="Hero" rel="Chapter" href="Hero.html">
+<link title="Io" rel="Chapter" href="Io.html">
+<link title="Random_bot" rel="Chapter" href="Random_bot.html">
+<link title="State" rel="Chapter" href="State.html"><title>Io</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Hero.html" title="Hero">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Random_bot.html" title="Random_bot">Next</a>
+</div>
+<h1>Module <a href="type_Io.html">Io</a></h1>
+
+<pre><span class="keyword">module</span> Io: <code class="code"><span class="keyword">sig</span></code> <a href="Io.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Body of successful response to HTTP POST<br>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEpost_success"><span class="keyword">type</span> <code class="type"></code>post_success</span> = <code class="type">string</code> </pre>
+<div class="info ">
+Body of successful response to HTTP POST<br>
+</div>
+
+
+<pre><span id="TYPEpost_result"><span class="keyword">type</span> <code class="type"></code>post_result</span> = <code class="type">(<a href="Io.html#TYPEpost_success">post_success</a>, string) Core.Std.Result.t</code> </pre>
+<div class="info ">
+HTTP success or error resulting from POST request<br>
+</div>
+
+
+<pre><span id="VALwith_post"><span class="keyword">val</span> with_post</span> : <code class="type">?retry:int -><br>       Uri.t -> (string * string) list -> <a href="Io.html#TYPEpost_result">post_result</a> Async.Std.Deferred.t</code></pre><div class="info ">
+Do a deferred HTTP POST request to given <code class="code">uri</code> with given parameters.<br>
+</div>
+</body></html>

@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Io.html">
+<link rel="next" href="State.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Board" rel="Chapter" href="Board.html">
+<link title="Bot" rel="Chapter" href="Bot.html">
+<link title="Game" rel="Chapter" href="Game.html">
+<link title="Hero" rel="Chapter" href="Hero.html">
+<link title="Io" rel="Chapter" href="Io.html">
+<link title="Random_bot" rel="Chapter" href="Random_bot.html">
+<link title="State" rel="Chapter" href="State.html"><title>Random_bot</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Io.html" title="Io">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="State.html" title="State">Next</a>
+</div>
+<h1>Module <a href="type_Random_bot.html">Random_bot</a></h1>
+
+<pre><span class="keyword">module</span> Random_bot: <code class="code"><span class="keyword">sig</span></code> <a href="Random_bot.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Is given tile a 'free' one (air, free mine or tavern).<br>
+</div>
+<hr width="100%">
+
+<pre><span id="VALis_free"><span class="keyword">val</span> is_free</span> : <code class="type"><a href="Board.html#TYPEtile">Board.tile</a> -> bool</code></pre><div class="info ">
+Is given tile a 'free' one (air, free mine or tavern).<br>
+</div>
+
+<pre><span id="VALis_some_free"><span class="keyword">val</span> is_some_free</span> : <code class="type"><a href="Board.html#TYPEtile">Board.tile</a> option -> bool</code></pre><div class="info ">
+* Checks whether there is some optional tile, 
+ * and if this tile is a free one.<br>
+</div>
+
+<pre><span id="VALstrategy"><span class="keyword">val</span> strategy</span> : <code class="type">(<a href="Board.html#TYPEboard">Board.board</a> -> int -> int -> <a href="Bot.html#TYPEdirection">Bot.direction</a> option) list</code></pre>
+<pre><span id="VALinstance"><span class="keyword">val</span> instance</span> : <code class="type"><a href="State.html#TYPEstate">State.state</a> -> (<a href="Bot.html#TYPEdirection">Bot.direction</a>, string) Core.Std.Result.t</code></pre><div class="info ">
+Bot with a dumb/random strategy to find next direction.<br>
+</div>
+</body></html>

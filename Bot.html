@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Board.html">
+<link rel="next" href="Game.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Board" rel="Chapter" href="Board.html">
+<link title="Bot" rel="Chapter" href="Bot.html">
+<link title="Game" rel="Chapter" href="Game.html">
+<link title="Hero" rel="Chapter" href="Hero.html">
+<link title="Io" rel="Chapter" href="Io.html">
+<link title="Random_bot" rel="Chapter" href="Random_bot.html">
+<link title="State" rel="Chapter" href="State.html"><title>Bot</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Board.html" title="Board">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Game.html" title="Game">Next</a>
+</div>
+<h1>Module <a href="type_Bot.html">Bot</a></h1>
+
+<pre><span class="keyword">module</span> Bot: <code class="code"><span class="keyword">sig</span></code> <a href="Bot.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Direction companion<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEdirection"><span class="keyword">type</span> <code class="type"></code>direction</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdirection.Stay"><span class="constructor">Stay</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdirection.North"><span class="constructor">North</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdirection.South"><span class="constructor">South</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdirection.East"><span class="constructor">East</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdirection.West"><span class="constructor">West</span></span></code></td>
+
+</tr></table>
+
+
+
+<pre><span class="keyword">module</span> <a href="Bot.Direction.html">Direction</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Bot.Direction.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Direction companion
+</div>
+
+<pre><span id="TYPEbot"><span class="keyword">type</span> <code class="type"></code>bot</span> = <code class="type"><a href="State.html#TYPEstate">State.state</a> -> (<a href="Bot.html#TYPEdirection">direction</a>, string) Core.Std.Result.t</code> </pre>
+<div class="info ">
+Bot: returns either a valid direction for next move, or error.<br>
+</div>
+
+</body></html>

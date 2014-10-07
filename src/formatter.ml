@@ -34,7 +34,8 @@ let string_of_board (b:board) : string =
       ~f:(fun (i, str) row ->
           let row_str = 
             String.concat ~sep:"|" (List.map row ~f:string_of_tile) in
-          (i+1, String.concat [str; (sprintf " %02i|" i); row_str; "|\r\n"])) in
+          (i+1, String.concat 
+                  [str; (sprintf " %02i|" i); row_str; "|\r\n"])) in
   String.concat ["    "; (topbar [] 0); "\r\n"; "   +"; 
                  hsep; "+\r\n"; tiles; "   +"; hsep; "+"]
       

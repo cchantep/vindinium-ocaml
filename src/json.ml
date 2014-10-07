@@ -81,7 +81,7 @@ let parse_game (json:Yojson.Basic.json): (game, string) Result.t =
               Ok { id; turn; max_turn; finished; heroes; board }
             ) with e -> Error(Exn.to_string e)))
 
-(* TODO: Use from_channel if Cohttp body deferred as in_channel *)
+(* TODO: Reader.of_in_channel *)
 (** Parses state from JSON [buffer]. *)
 let parse_state (buffer:string) : (state, string) Result.t = 
   let open Yojson.Basic.Util in

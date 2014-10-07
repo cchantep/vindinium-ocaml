@@ -107,3 +107,21 @@ open Board
 
 let on : bool = Board.is_on board ~col:0 ~row:1
 ```
+
+**Bot:**
+
+Contract for any bot is defined as following:
+
+```ocaml
+type bot = state -> (direction, string) Result.t
+```
+
+Bot module also provides functions useful to code your own bot:
+
+```ocaml
+(** Is given tile a 'free' one (air, free mine or tavern). *)
+is_free : tile -> bool
+
+(** Same to work with tile option (e.g. from List.nth *)
+let is_some_free (t: tile option) : bool = Option.exists t (fun _ -> true)
+```

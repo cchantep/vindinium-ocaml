@@ -1,21 +1,11 @@
 open Core.Std
+open Async.Std
 
 open Board
 open Bot
 open Game
 open Hero
 open State
-
-(** Is given tile a 'free' one (air, free mine or tavern). *)
-let is_free (t:tile) : bool = 
-  match t with AirTile | FreeMineTile | TavernTile -> true | _ -> false
-
-(**
- * Checks whether there is some optional tile, 
- * and if this tile is a free one. 
- *)
-let is_some_free (t: tile option) : bool = 
-  match t with Some(tile) -> is_free tile | _ -> false
 
 let strategy : (board -> int -> int -> direction option) list = [
     (fun b c r -> (* Not on first row and cell up is free *)
@@ -51,7 +41,7 @@ let instance (st: state) : (direction, string) Result.t =
                  match d with Some(dir) -> dir :: l | _ -> l) in
          let randi = Random.int (List.length possible) in
          match List.nth possible randi with
-         | Some(dir) -> Ok dir 
+         | Some(dir) -> Ok dir
          | _ -> Error "Fail to select a random direction"
         )
       else Error "Hero is off the board"

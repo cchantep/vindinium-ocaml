@@ -22,8 +22,12 @@ let with_post ?(retry:int=2) (uri:Uri.t) (params: (string * string) list): post_
      Client.post uri ~headers ~body:(Body.of_string rawbody)
      >>= (fun (resp, body) -> 
           match resp.status with 
-          | `OK -> Deferred.map (Body.to_string body) ~f:(fun bstr -> Ok bstr)
-          | e -> return (Error(Cohttp.Code.string_of_status e)))) in
+          | `OK -> (Body.to_string body) >>| (fun bstr -> Ok bstr)
+          | e -> 
+             Body.to_string body >>| (
+              fun bstr -> 
+              let status = Cohttp.Code.string_of_status e in
+              Error(sprintf "%s:\r\n\r\n%s" status bstr)))) in
   let rec run_post : (post_result * int) -> post_result Deferred.t = 
     (* try until get HTTP success, or retry limit reached *)
     (function (* current HTTP result, remaining try *)

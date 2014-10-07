@@ -37,7 +37,7 @@ let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) : 
      (printf "%s" (string_of_state current));
      if (current.game.finished) then return (printf "Game is over\r\n")
      else 
-       match (bot current) with
+       match bot current with
        | Error(msg) -> return (printf "Fails to get next direction: %s\r\n" msg)
        | Ok(dir) ->
           let play_params = ("dir", Direction.to_string dir) :: ini_params in
@@ -49,18 +49,17 @@ let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) : 
                    match (parse_state json) with
                    | Error(msg) -> 
                       return (printf "Fails to parse state: %s\n" msg)
-                   | Ok(state) -> play state)
-    ) in
-    Io.with_post url mode_params 
-    >>= (function 
-          | Error(msg) -> 
-             return (printf "Fails to get initial state: %s\r\n" msg)
-          | Ok(json) -> 
-             match (parse_state json) with
-             | Error(msg) -> 
-                return (printf "Fails to parse initial state: %s\r\n" msg)
-             | Ok(state) -> play state)
-          
+                   | Ok(state) -> play state))
+  in Io.with_post url mode_params 
+     >>= (function 
+           | Error(msg) -> 
+              return (printf "Fails to get initial state: %s\r\n" msg)
+           | Ok(json) -> 
+              match (parse_state json) with
+              | Error(msg) -> 
+                 return (printf "Fails to parse initial state: %s\r\n" msg)
+              | Ok(state) -> play state)
+           
 let () = 
   let _mode : string -> (string, string) Result.t = 
     (fun s ->
@@ -89,9 +88,8 @@ let () =
               ~doc:" Number of turn to play (only for training, default: 10)"
       +> flag "-server" (optional_with_default default_server string)
               ~doc:(sprintf " Base URL to server (default: %s)" default_server)
-      +> flag "-bot" no_arg ~doc:" If present, will use automatic bot"
     )
-    (fun m key l server auto ->
+    (fun m key l server ->
      let m' = _mode m in
      let l' = positive l in
      let s' = _uri server in

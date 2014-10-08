@@ -19,7 +19,7 @@ AlphaFeatures: ocamlbuild_more_args
 Library "vindinium"
   Path: src
   Modules: Board, Bot, Game, Hero, Io, Random_bot, State
-  BuildDepends: core, async_ssl, cohttp.async, yojson, ansiterminal
+  BuildDepends: core, async_ssl, cohttp.async, yojson, ANSITerminal
 
 Document "vindinium_api"
   Type: ocamlbuild (0.4)

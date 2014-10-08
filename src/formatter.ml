@@ -12,8 +12,25 @@ let pad_to (s:string) (len:int) : string =
     let pad : string = String.make rem ' ' in
     String.concat [s; pad]
 
+let ansi (styles: ANSITerminal.style list) (s:string): string =
+  ANSITerminal.sprintf styles "%s" s
+
 (** Return pretty string for tile [t]. *)
-let string_of_tile (t:tile) : string = Tile.to_string t
+let string_of_tile (t:tile) : string = 
+  let content = Tile.to_string t in
+  let open ANSITerminal in
+  match t with
+  | AirTile -> ansi [on_white] content
+  | FreeMineTile -> ansi [Bold; yellow; on_white] content
+  | TavernTile -> ansi [magenta; on_white] content
+  | WoodTile -> ansi [on_green] content
+  | _ -> content
+(*
+WoodTile 
+  | HeroTile of hero_id
+  | MineTile of hero_id
+ *)
+
 
 (** Returns pretty string for board [b]. *)
 let string_of_board (b:board) : string = 
@@ -33,7 +50,7 @@ let string_of_board (b:board) : string =
       b.tiles ~init:(1, "") 
       ~f:(fun (i, str) row ->
           let row_str = 
-            String.concat ~sep:"|" (List.map row ~f:string_of_tile) in
+            String.concat ~sep:" " (List.map row ~f:string_of_tile) in
           (i+1, String.concat 
                   [str; (sprintf " %02i|" i); row_str; "|\r\n"])) in
   String.concat ["    "; (topbar [] 0); "\r\n"; "   +"; 
@@ -57,7 +74,11 @@ let string_of_state (s:state) : string =
           let (x, y) = hero.position in
           pad_to (sprintf "You're hero @%i at position (%i, %i)" 
                           hero_num (x+1) (y+1)) 80) in
-  let view = pad_to (sprintf "View URL: %s" s.view_url) 80 in
-  let play = pad_to (sprintf "Play URL: %s" s.play_url) 80 in
+  let (view_url, play_url) = 
+    let open ANSITerminal in
+    ((ansi [Underlined; cyan] s.view_url), 
+     ansi [Underlined; cyan] s.play_url) in
+  let view = pad_to (sprintf "View URL: %s" view_url) 80 in
+  let play = pad_to (sprintf "Play URL: %s" play_url) 80 in
   String.concat [ "\r\n"; game; "\r\n\r\n"; hero_status; "\r\n\r\n"; 
                   view; "\r\n"; play; "\r\n\r\n" ]

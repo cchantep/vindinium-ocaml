@@ -4,6 +4,7 @@ open Async.Std
 open Io
 open Json
 open Bot
+open Board
 open Game
 open State
 
@@ -32,8 +33,11 @@ let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) : 
              | _ -> server) in
     Uri.of_string (sprintf "%s/api/%s" s mode) in
   let open Formatter in
-  let rec play : state -> unit Deferred.t = 
-    (fun current ->
+  let rec play : int -> state -> unit Deferred.t = 
+    (fun screen_h current ->
+     (let open ANSITerminal in
+      set_cursor 1 1;
+      erase Screen);
      (printf "%s" (string_of_state current));
      if (current.game.finished) then return (printf "Game is over\r\n")
      else 
@@ -49,7 +53,7 @@ let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) : 
                    match (parse_state json) with
                    | Error(msg) -> 
                       return (printf "Fails to parse state: %s\n" msg)
-                   | Ok(state) -> play state))
+                   | Ok(state) -> play screen_h state))
   in Io.with_post url mode_params 
      >>= (function 
            | Error(msg) -> 
@@ -58,7 +62,10 @@ let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) : 
               match (parse_state json) with
               | Error(msg) -> 
                  return (printf "Fails to parse initial state: %s\r\n" msg)
-              | Ok(state) -> play state)
+              | Ok(state) -> 
+                 (let open ANSITerminal in
+                  set_cursor 1 1);
+                 play (0-12-state.game.board.size) state)
            
 let () = 
   let _mode : string -> (string, string) Result.t = 

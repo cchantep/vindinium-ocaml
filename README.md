@@ -41,6 +41,8 @@ Start Vindinium client
 # ./main.native -key your_key -mode training
 ```
 
+![Vindinium CLI](./cli.png)
+
 ## Try your bot
 
 In order to try to play with your own bot, code of [prog.ml at line 17](https://github.com/cchantep/vindinium-ocaml/blob/master/prog/main.ml#L17) must be updated: `let automatic_bot : bot = your_bot`.

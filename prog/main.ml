@@ -4,6 +4,7 @@ open Async.Std
 open Io
 open Json
 open Bot
+open Hero
 open Board
 open Game
 open State
@@ -39,9 +40,20 @@ let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) : 
       set_cursor 1 1;
       erase Screen);
      (printf "%s" (string_of_state current));
-     if (current.game.finished) then return (printf "Game is over\r\n")
-     else 
-       match bot current with
+     let hero_st = 
+       Option.map (State.hero current) ~f:(fun h -> (h.crashed, h.life)) in
+     match (current.game.finished, hero_st) with 
+     | (true, _) -> 
+        let open ANSITerminal in
+        return (printf [Bold; green] "Game is over\r\n")
+     | (_, Some((true, _))) -> 
+        let open ANSITerminal in 
+        return (printf [Bold; Blink; red] "You've crashed\r\n")
+     | (_, Some((_, 0))) -> 
+        let open ANSITerminal in 
+        return (printf [Bold; Blink; red] "RIP: You're dead\r\n")
+     | _ ->
+       (match bot current with
        | Error(msg) -> return (printf "Fails to get next direction: %s\r\n" msg)
        | Ok(dir) ->
           let play_params = ("dir", Direction.to_string dir) :: ini_params in
@@ -53,7 +65,7 @@ let run ~(mode:string) ~(key:string) ~(limit:int) ~(server:string) ~(bot:bot) : 
                    match (parse_state json) with
                    | Error(msg) -> 
                       return (printf "Fails to parse state: %s\n" msg)
-                   | Ok(state) -> play screen_h state))
+                   | Ok(state) -> play screen_h state)))
   in Io.with_post url mode_params 
      >>= (function 
            | Error(msg) -> 
